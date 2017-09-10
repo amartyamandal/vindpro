@@ -1,7 +1,7 @@
-# vindpro
+# VindPro Authebntication Sample
 Facebook &amp; LinkedIn login with Firebase and Xamarin
 
-To start with have an account with firebase it’s best to have an account with google cloud to get access to google cloud control and then #to firebase.
+To start with have an account with firebase it’s best to have an account with google cloud to get access to google cloud control and then to firebase.
 
 Go ahead and create/import your android app project and get “google-services.json” folks who do not know what it is you have lot to catch. Replace the Json file of your own! 
 
