@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Unique key for cached download -->
+        <_XbdKey_playservicesvision>playservices-10.2.1/playservicesvision</_XbdKey_playservicesvision>
+        
+        <!-- Path to .aar file within the extracted contents of the cached download -->
+        <_XbdAarFile_playservicesvision>m2repository\com\google\android\gms\play-services-vision\10.2.1\play-services-vision-10.2.1.aar</_XbdAarFile_playservicesvision>
+        
+        <!-- Full path to .aar file, assuming we had to download to the cache - we reset this later if it is in the sdk -->
+        <_XbdAarFileFullPath_playservicesvision>$(XamarinBuildDownloadDir)$(_XbdKey_playservicesvision)\play-services-vision-10.2.1.aar</_XbdAarFileFullPath_playservicesvision>
+
+        <!-- Assembly name to embed .aar in -->
+        <_XbdAssemblyName_playservicesvision>Xamarin.GooglePlayServices.Vision</_XbdAssemblyName_playservicesvision>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <XamarinBuildRestoreResources Include="_XbdRestoreItems_playservicesvision"/>
+    </ItemGroup>
+
+    <Target Name="_XbdRestoreItems_playservicesvision">
+        <!-- Check if the aar file is in the android sdk already and change the path to use to it, if it's found -->
+        <CreateProperty Value="$(AndroidSdkDirectory)\extras\google\$(_XbdAarFile_playservicesvision)" Condition="Exists('$(AndroidSdkDirectory)\extras\google\$(_XbdAarFile_playservicesvision)')">
+            <Output PropertyName="_XbdAarFileFullPath_playservicesvision" TaskParameter="Value" />
+        </CreateProperty>
+
+        <ItemGroup>
+            <XamarinBuildDownloadPartialZip Include="$(_XbdKey_playservicesvision)" Condition="!Exists('$(_XbdAarFileFullPath_playservicesvision)')">
+                <Url>https://dl-ssl.google.com/android/repository/google_m2repository_gms_v9_1_rc07_wear_2_0_1_rc3.zip</Url>
+                <ToFile>play-services-vision-10.2.1.aar</ToFile>
+                <RangeStart>19789429</RangeStart>
+                <RangeEnd>19891748</RangeEnd>
+                <Md5>c6a10a8e5df439ecf3696512c5d70093</Md5>
+                <CustomErrorMessage>Please open the Android SDK Manager and install the latest version of 'Google Repository' from the 'Extras' section, and then reload your solution.</CustomErrorMessage>
+                <CustomErrorCode>XBD404</CustomErrorCode>
+            </XamarinBuildDownloadPartialZip>
+        </ItemGroup>
+
+        <ItemGroup>
+            <XamarinBuildDownloadRestoreAssemblyAar Include="$(_XbdAarFileFullPath_playservicesvision)">
+                <LogicalName>__AndroidLibraryProjects__.zip</LogicalName>
+                <AssemblyName>$(_XbdAssemblyName_playservicesvision)</AssemblyName>
+            </XamarinBuildDownloadRestoreAssemblyAar>
+        </ItemGroup>
+    </Target>
+</Project>

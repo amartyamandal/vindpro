@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vindpro.firebase", "vindpro.firebase\vindpro.firebase.csproj", "{B40DA0B7-8500-4638-BD7E-5394C1571AA8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "vindpro.firebase.shared", "vindpro.firebase.shared\vindpro.firebase.shared.shproj", "{A6704793-0697-477A-AB7D-9EF10908D5D2}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		vindpro.firebase.shared\vindpro.firebase.shared.projitems*{a6704793-0697-477a-ab7d-9ef10908d5d2}*SharedItemsImports = 13
+		vindpro.firebase.shared\vindpro.firebase.shared.projitems*{b40da0b7-8500-4638-bd7e-5394c1571aa8}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B40DA0B7-8500-4638-BD7E-5394C1571AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B40DA0B7-8500-4638-BD7E-5394C1571AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B40DA0B7-8500-4638-BD7E-5394C1571AA8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B40DA0B7-8500-4638-BD7E-5394C1571AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B40DA0B7-8500-4638-BD7E-5394C1571AA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B40DA0B7-8500-4638-BD7E-5394C1571AA8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A546C57D-5021-4FF8-B0EB-B90DD93F876E}
+	EndGlobalSection
+EndGlobal

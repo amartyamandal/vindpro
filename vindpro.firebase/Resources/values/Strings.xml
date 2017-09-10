@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Vindpro Firebase Auth</string>
+  <string name="loading">Loading…</string>
+  <string name="sign_in">Sign In</string>
+  <string name="sign_out">Sign Out</string>
+  <string name="signed_out">Signed Out</string>
+  <string name="desc_firebase_lockup">Firebase logo and name</string>
+  <string name="google_status_fmt">Google User: %s</string>
+  <string name="google_title_text">Google Sign In</string>
+  <string name="firebase_status_fmt">Firebase User: %s</string>
+
+
+  <string name="label_facebook_login">Firebase + Facebook Login</string>
+  <string name="desc_facebook_login">Use a Facebook Login credential to authenticate with Firebase.</string>
+  <string name="facebook_status_fmt">Facebook User: %s</string>
+  <string name="facebook_title_text">Facebook Login</string>
+
+
+  <string name="linkedin_status_fmt">LinkedIn User: %s</string>
+  <string name="linkedin_title_text">LinkedIn Login</string>
+  <string name="button_linkedin_login">LinkedIn Login</string>
+  <string name="button_linkedin_signout">LinkedIn Logout</string>
+  <string name="label_linkedin_login">LinkedIn Login</string>
+  <string name="desc_linkedin_login">Use a LinkedIn Login credential to authenticate.</string>
+
+ 
+          
+</resources>
