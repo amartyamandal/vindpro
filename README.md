@@ -1,5 +1,6 @@
 # Firebase & Xamarin Authentication Sample
 Facebook &amp; LinkedIn login with Firebase and Xamarin
+
 ![Facebook Auth](https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAA1oAAAAJGRiZjVlMjhjLTU5OTYtNGE3OS04MjRjLWVmOWI0NDg3NTcxNQ.png?raw=true "Facebook Auth")
 ![LinkedIn Auth](https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAtMAAAAJGUxMTZhMjZkLTBmMTgtNGEwMC1hZTU1LThmOWNmYjlkZjZlMg.png?raw=true "LinkedIn Auth")
 
