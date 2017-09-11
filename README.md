@@ -19,3 +19,27 @@ The source code will provide a best practice to follow while implementing Facebo
 
 As well as a way to maintain LinkedIn users with firebase with xamarin.auth and firebase sdk.
 Both of the implementation has different flavors for managed authentication providers like google and Facebook respective auth sdk will handle the heavy lifting- like in case of Facebook -specific activity should implement IFacebookCallback (Xamarin.Facebook) and IOnCompleteListener (Android.Gms.Tasks) and then firebase sdk will do the rest it has to use “AuthStateChanged” to check if an user logged in or not and handle the Facebook access token just like following simple example once a authentication credential is created it will make an entry to firebase table.
+
+![Facebook Access Token](https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAqMAAAAJDFkNDExZmY3LTAxZDAtNGM3MS1hYTY1LTI0YjZiZTRmNjQxYQ.png?raw=true "Facebook Access Token")
+
+But in case of LinkedIn its simple oAuth2 implementation complexity lies in creating the custom firebase token.
+
+I have kept the token creation process in a separate shared project with a single class “Firebasetoken” make sure you have shared project template installed in your visual studio.
+
+Remember this is just an example of how to do it – do not include this code or implement this at client side it involves a service account and other secrets which are potential security variabilities this supposed to be implemented at server end.
+
+Following are the steps to follow.
+In the Firebase console click the setting icon which is top left, next to the project name, and click 'Permissions'.
+
+![Firebase Console](https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAApRAAAAJDdjZmE1ZTFmLWNhODAtNDNmNi04ZTBlLTU2YzQ4YTY4YjRlOA.png?raw=true "Firebase Console")
+
+At the IAM and Admin page, click 'Service Accounts' on the left
+Click 'Create Service Account' at the top, enter a 'Service Account Name', select 'Project->Editor' in the Role selection, tick the 'Furnish a new private key' checkbox and select JSON.
+Click 'Create' and download the Service Account JSON file and keep it safe.
+Open the Service Account JSON file in a suitable text editor and put the values into Firebasetoken class
+
+![Firebase Token](https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAz1AAAAJDU3MTZiNTkxLWM5ZGYtNDZhNS1hMDE4LWZjMWU2NmE2MzdjMg.png?raw=true "Firebase Token")
+
+Remember to include BouncyCastle reference, In fact, here is a screenshot of the references you require to build this project correctly 
+
+![References](https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAw3AAAAJGUwNjdmOTJiLTQ1MmYtNDk4ZS05MmU2LTBlNDlkOWViYWVkMw.png?raw=true "References")
