@@ -1,0 +1,111 @@
+#Generate Private key
+openssl genrsa -des3 -out ca_root.key 2048 
+#generate a root certificate
+#openssl req -x509 -new -nodes -key ca_root.key -sha256 -days 1825 -out ca_root.pem
+openssl req -x509 -new -nodes -key ca_root.key -sha256 -days 1024 -out ca_root.crt
+
+
+openssl rsa -in ca_root.key -out ca_root.unencrypted.key -passin pass:pass
+#openssl x509 -inform DER -outform PEM -in ca_root.crt -out ca_root.pem
+#openssl rsa -inform DER -outform PEM -in ca_root.key -out ca_root.pem
+openssl rsa -in ca_root.key -text > ca_root.pem
+
+#openssl x509 -in ca_root.pem -text
+#openssl verify  ca_root.pem
+
+#Installing Your Root Certificate in Ubuntu
+#https://crypto.stackexchange.com/questions/43697/what-is-the-difference-between-pem-csr-key-and-crt-and-other-such-file-ext
+openssl x509 -outform der -in ca_root.pem -out ca_root.crt
+sudo cp ca_root.crt /usr/local/share/ca-certificates/ca_root.crt
+sudo update-ca-certificates -f
+
+
+#Generate Private key
+openssl genrsa -des3 -out vindpro_ca.key 2048 
+#generate a root certificate
+openssl req -x509 -new -nodes -key vindpro_local_ca.key -sha256 -days 1825 -out vindpro_local_ca.pem
+
+
+#Installing Your Root Certificate in Ubuntu
+#https://crypto.stackexchange.com/questions/43697/what-is-the-difference-between-pem-csr-key-and-crt-and-other-such-file-ext
+openssl x509 -outform der -in vindpro_local_ca.pem -out vindpro_local_ca.crt
+sudo cp vindpro_local_ca.crt /usr/local/share/ca-certificates/vindpro_local_ca.crt
+sudo update-ca-certificates
+
+#### CREATING CERT FROM CA ###############
+
+#option1
+##Create a private key for vindpro.dev
+openssl genrsa -out dev.vindpro.local.key 2048
+##Then we create a CSR
+openssl req -new -key dev.vindpro.local.key -out dev.vindpro.local.csr
+#option2 creating key and csr
+#openssl req -newkey rsa:2048 -nodes -keyout "dev.vindpro.local.key" -out "dev.vindpro.local.csr"
+
+
+#Create self-signed certificate
+##openssl x509 -signkey "vindpro_ca.key" -in "dev.vindpro.local.csr" -req -days 365 -out "dev.vindpro.local.csr.crt"
+
+
+#############Shell script##############################
+#!/bin/sh
+
+if [ "$#" -ne 1 ]
+then
+  echo "Usage: Must supply a domain"
+  exit 1
+fi
+
+DOMAIN=$1
+
+cd ~/certs
+
+openssl genrsa -out $DOMAIN.key 2048
+openssl req -new -key $DOMAIN.key -out $DOMAIN.csr
+
+cat > $DOMAIN.ext << EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = $DOMAIN
+EOF
+
+openssl x509 -req -in $DOMAIN.csr -CA ../myCA.pem -CAkey ../myCA.key -CAcreateserial \
+-out $DOMAIN.crt -days 825 -sha256 -extfile $DOMAIN.ext
+
+
+############ CREATING K8S CERT FROM CA #################
+############################################
+echo "Creating K8S secrets with the CA private keys (will be used by the cert-manager CA Issuer)"
+kubectl -n some-namespace create secret tls k8s-tls-ca-key-pair --key=${CA_CERTS_FOLDER}/${ENVIRONMENT_DEV}/vindpro_local_ca.key --cert=${CA_CERTS_FOLDER}/${ENVIRONMENT_DEV}/vindpro_local_ca.crt
+
+
+
+############ CREATING K8S CERT FROM CA #################
+#kubectl delete namespace home-apps
+
+rm -rf ca_certs
+echo "\nCreate k8s tls certs....."
+DOMAIN="vindpro.local"
+ROOT_CA_PATH="/home/vindpro/certs/root_ca/ca_root"
+mkdir ca_certs
+#chown vindpro:vindpro /home/vagrant/.kube/config
+cd ca_certs
+
+echo "\nCreate a private key for $DOMAIN"
+openssl genrsa -out $DOMAIN.key 2048
+echo "\nThen we create a CSR for $DOMAIN\n"
+echo "/C=CA/ST=Ontario/L=Toronto/O=Vindpro/OU=Vindpro Certificate Manager/CN="$DOMAIN
+openssl req -new -key $DOMAIN.key -out $DOMAIN.csr -config $WORKSPACE/tls/openssl.cnf
+#-subj "/C=CA/ST=Ontario/L=Toronto/O=Vindpro/OU=test/CN="$DOMAIN
+#we can use openssl.cnf https://support.code42.com/Administrator/6/Configuring/Use_OpenSSL_to_install_a_keystore
+
+echo "\nCreate the certificate & sign with CA and root key"
+openssl x509 -req -passin pass:pass -in $DOMAIN.csr -CA $ROOT_CA_PATH.pem -CAkey $ROOT_CA_PATH.key \
+-CAcreateserial -out $DOMAIN.crt -days 825 -sha256 
+#-extfile $DOMAIN.ext
+
+#openssl req -in mycsr.csr -noout -text
+#openssl x509 -in $DOMAIN.crt -text -noout
